@@ -25,5 +25,30 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
   }
 }
+
+/* Фикс горизонтального смещения на мобильных */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+img, svg, canvas, video {
+  max-width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
