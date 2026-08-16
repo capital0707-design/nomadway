@@ -2,6 +2,16 @@ import { useState, useCallback } from 'react';
 import { MapPin, Car, Users, Globe, Mountain } from 'lucide-react';
 import UserAgreement from './pages/UserAgreement';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import { SearchParams } from './lib/types';
+import SearchForm from './components/SearchForm';
+import SearchResults from './pages/SearchResults';
+import BookingConfirmation from './pages/BookingConfirmation';
+import DriverRegistration from './pages/DriverRegistration';
+import GuideRegistration from './pages/GuideRegistration';
+import DriverDashboard from './pages/DriverDashboard';
+import HeroSection from './components/HeroSection';
+import GuideDashboard from './pages/GuideDashboard';
+import { useTranslation } from './lib/i18n';
 
 const FlagRU = ({ className = '' }: { className?: string }) => (
   <svg viewBox="0 0 24 16" className={className} preserveAspectRatio="none">
@@ -22,18 +32,7 @@ const FlagGB = ({ className = '' }: { className?: string }) => (
   </svg>
 );
 
-import { SearchParams } from './lib/types';
-import SearchForm from './components/SearchForm';
-import SearchResults from './pages/SearchResults';
-import BookingConfirmation from './pages/BookingConfirmation';
-import DriverRegistration from './pages/DriverRegistration';
-import GuideRegistration from './pages/GuideRegistration';
-import DriverDashboard from './pages/DriverDashboard';
-import HeroSection from './components/HeroSection';
-import GuideDashboard from './pages/GuideDashboard';
-import { useTranslation } from './lib/i18n';
-
-type AppStep = 
+type AppStep =
   | 'search'
   | 'results'
   | 'booking'
@@ -107,15 +106,15 @@ function App() {
                   { icon: Car, label: t('nav.selection'), active: step === 'results' || step === 'booking' },
                   { icon: Users, label: t('nav.confirmation'), active: step === 'confirmation' },
                 ].map((item, i) => (
-                <div key={i} className="flex items-center gap-1">
-                  {i > 0 && <div className="w-6 h-px bg-gray-200 mx-1" />}
-                  <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    item.active ? 'bg-primary-50 text-primary-700' : 'text-gray-400'
-                  }`}>
-                    <item.icon className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">{item.label}</span>
+                  <div key={i} className="flex items-center gap-1">
+                    {i > 0 && <div className="w-6 h-px bg-gray-200 mx-1" />}
+                    <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                      item.active ? 'bg-primary-50 text-primary-700' : 'text-gray-400'
+                    }`}>
+                      <item.icon className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">{item.label}</span>
+                    </div>
                   </div>
-                </div>
                 ))}
               </nav>
               <button
@@ -125,7 +124,6 @@ function App() {
                 {lang === 'ru' ? <FlagRU className="w-4 h-3 rounded-[2px] overflow-hidden block" /> : <FlagGB className="w-4 h-3 rounded-[2px] overflow-hidden block" />}
                 <span>{lang === 'ru' ? 'RU' : 'EN'}</span>
               </button>
-  
             </div>
           </div>
         </div>
@@ -161,12 +159,11 @@ function App() {
           <GuideDashboard onBack={() => setStep('search')} />
         )}
         {step === 'user-agreement' && (
-  <UserAgreement onBack={() => setStep('search')} />
-)}
-{step === 'privacy-policy' && (
-  <PrivacyPolicy onBack={() => setStep('search')} />
-)}
-
+          <UserAgreement onBack={() => setStep('search')} />
+        )}
+        {step === 'privacy-policy' && (
+          <PrivacyPolicy onBack={() => setStep('search')} />
+        )}
       </main>
 
       <footer className="bg-gray-900 text-gray-400 py-12 mt-20">
@@ -198,6 +195,7 @@ function App() {
               </ul>
             </div>
 
+            {/* Правовая информация — переключается по языку */}
             <div>
               <h4 className="text-white font-semibold mb-3 text-sm">{t('footer.legal')}</h4>
               <ul className="space-y-1.5 text-sm">
@@ -220,21 +218,22 @@ function App() {
               </ul>
             </div>
 
+            {/* Партнёрам — ВСЕГДА на русском (для местного персонала) */}
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm">{t('footer.partners')}</h4>
+              <h4 className="text-white font-semibold mb-3 text-sm">Партнёрам</h4>
               <ul className="space-y-1.5 text-sm">
                 <li className="flex items-center justify-between gap-4">
                   <button
                     onClick={() => setStep('driver-reg')}
                     className="text-gray-400 hover:text-primary-400 transition-colors text-left"
                   >
-                    {t('footer.becomeDriver')}
+                    Стать водителем
                   </button>
                   <button
                     onClick={() => setStep('driver-dashboard')}
                     className="text-gray-400 hover:text-primary-400 transition-colors text-right"
                   >
-                    {t('footer.driverDashboard')}
+                    Кабинет водителя →
                   </button>
                 </li>
                 <li className="flex items-center justify-between gap-4">
@@ -242,13 +241,13 @@ function App() {
                     onClick={() => setStep('guide-reg')}
                     className="text-gray-400 hover:text-accent-400 transition-colors text-left"
                   >
-                    {t('footer.becomeGuide')}
+                    Стать гидом-переводчиком
                   </button>
                   <button
                     onClick={() => setStep('guide-dashboard')}
                     className="text-gray-400 hover:text-accent-400 transition-colors text-right"
                   >
-                    {t('footer.guideDashboard')}
+                    Кабинет гида →
                   </button>
                 </li>
               </ul>
