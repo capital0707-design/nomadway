@@ -146,6 +146,17 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.hours': 'Работаем 24/7',
     'footer.copyright': 'NomadWay — трансферные услуги в Кыргызстане',
     'footer.description': 'Надёжные трансферные услуги по всему Кыргызстану. Встреча в аэропорту, междугородние перевозки, гиды-переводчики.',
+
+         // Legal & Partners
+    'footer.legal': 'Правовая информация',
+    'footer.terms': 'Пользовательское соглашение',
+    'footer.privacy': 'Политика конфиденциальности',
+    'footer.partners': 'Партнёрам',
+    'footer.becomeDriver': 'Стать водителем',
+    'footer.driverDashboard': 'Кабинет водителя →',
+    'footer.becomeGuide': 'Стать гидом-переводчиком',
+    'footer.guideDashboard': 'Кабинет гида →',
+    'footer.copyright': 'Copyright © 2026 NomadWay. Все права защищены.',
   },
   en: {
     // Header
@@ -284,6 +295,17 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.hours': 'Available 24/7',
     'footer.copyright': 'NomadWay — transfer services in Kyrgyzstan',
     'footer.description': 'Reliable transfer services throughout Kyrgyzstan. Airport pickup, intercity transportation, guide-translators.',
+
+        // Legal & Partners
+    'footer.legal': 'Legal',
+    'footer.terms': 'Terms of Service',
+    'footer.privacy': 'Privacy Policy',
+    'footer.partners': 'Partners',
+    'footer.becomeDriver': 'Become a driver',
+    'footer.driverDashboard': 'Driver dashboard →',
+    'footer.becomeGuide': 'Become a guide',
+    'footer.guideDashboard': 'Guide dashboard →',
+    'footer.copyright': 'Copyright © 2026 NomadWay. All rights reserved.',
   },
 };
 

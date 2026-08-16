@@ -198,66 +198,65 @@ function App() {
               </ul>
             </div>
 
-<div>
-  <h4 className="text-white font-semibold mb-3 text-sm">Правовая информация</h4>
-  <ul className="space-y-1.5 text-sm">
-    <li>
-      <button
-        onClick={() => setStep('user-agreement')}
-        className="text-gray-400 hover:text-primary-400 transition-colors"
-      >
-        Пользовательское соглашение
-      </button>
-    </li>
-    <li>
-      <button
-        onClick={() => setStep('privacy-policy')}
-        className="text-gray-400 hover:text-primary-400 transition-colors"
-      >
-        Политика конфиденциальности
-      </button>
-    </li>
-  </ul>
-</div>
-            
+            <div>
+              <h4 className="text-white font-semibold mb-3 text-sm">{t('footer.legal')}</h4>
+              <ul className="space-y-1.5 text-sm">
+                <li>
+                  <button
+                    onClick={() => setStep('user-agreement')}
+                    className="text-gray-400 hover:text-primary-400 transition-colors"
+                  >
+                    {t('footer.terms')}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setStep('privacy-policy')}
+                    className="text-gray-400 hover:text-primary-400 transition-colors"
+                  >
+                    {t('footer.privacy')}
+                  </button>
+                </li>
+              </ul>
+            </div>
 
-          <div>
-  <h4 className="text-white font-semibold mb-3 text-sm">Партнёрам</h4>
-  <ul className="space-y-1.5 text-sm">
-    <li className="flex items-center justify-between gap-4">
-      <button
-        onClick={() => setStep('driver-reg')}
-        className="text-gray-400 hover:text-primary-400 transition-colors text-left"
-      >
-        Стать водителем
-      </button>
-     <button
-  onClick={() => setStep('driver-dashboard')}
-  className="text-gray-400 hover:text-primary-400 transition-colors text-right"
->
-        Кабинет водителя →
-     </button>
-    </li>
-    <li className="flex items-center justify-between gap-4">
-      <button
-        onClick={() => setStep('guide-reg')}
-        className="text-gray-400 hover:text-accent-400 transition-colors text-left"
-      >
-        Стать гидом-переводчиком
-      </button>
-   <button
-  onClick={() => setStep('guide-dashboard')}
-  className="text-gray-400 hover:text-accent-400 transition-colors text-right"
->
-  Кабинет гида →
-</button>
-    </li>
-  </ul>
-</div>
+            <div>
+              <h4 className="text-white font-semibold mb-3 text-sm">{t('footer.partners')}</h4>
+              <ul className="space-y-1.5 text-sm">
+                <li className="flex items-center justify-between gap-4">
+                  <button
+                    onClick={() => setStep('driver-reg')}
+                    className="text-gray-400 hover:text-primary-400 transition-colors text-left"
+                  >
+                    {t('footer.becomeDriver')}
+                  </button>
+                  <button
+                    onClick={() => setStep('driver-dashboard')}
+                    className="text-gray-400 hover:text-primary-400 transition-colors text-right"
+                  >
+                    {t('footer.driverDashboard')}
+                  </button>
+                </li>
+                <li className="flex items-center justify-between gap-4">
+                  <button
+                    onClick={() => setStep('guide-reg')}
+                    className="text-gray-400 hover:text-accent-400 transition-colors text-left"
+                  >
+                    {t('footer.becomeGuide')}
+                  </button>
+                  <button
+                    onClick={() => setStep('guide-dashboard')}
+                    className="text-gray-400 hover:text-accent-400 transition-colors text-right"
+                  >
+                    {t('footer.guideDashboard')}
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs text-gray-500">
-            Copyright © 2026 NomadWay. Все права защищены.
+            {t('footer.copyright')}
           </div>
         </div>
       </footer>
