@@ -39,7 +39,15 @@ img, svg, canvas, video {
   max-width: 100%;
 }
 
-
+/* Скрываем нативные стрелки у числовых полей (на случай если где-то осталось) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 
 
 
