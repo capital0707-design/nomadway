@@ -144,7 +144,6 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.mountains': 'Горные маршруты',
     'footer.contacts': 'Контакты',
     'footer.hours': 'Работаем 24/7',
-    'footer.copyright': 'NomadWay — трансферные услуги в Кыргызстане',
     'footer.description': 'Надёжные трансферные услуги по всему Кыргызстану. Встреча в аэропорту, междугородние перевозки, гиды-переводчики.',
 
          // Legal & Partners
@@ -293,7 +292,6 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.mountains': 'Mountain routes',
     'footer.contacts': 'Contacts',
     'footer.hours': 'Available 24/7',
-    'footer.copyright': 'NomadWay — transfer services in Kyrgyzstan',
     'footer.description': 'Reliable transfer services throughout Kyrgyzstan. Airport pickup, intercity transportation, guide-translators.',
 
         // Legal & Partners
