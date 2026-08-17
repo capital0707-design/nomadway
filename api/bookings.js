@@ -50,6 +50,9 @@ async function sendTelegramNotification(booking) {
     : [null];
 
   const time = String(booking.pickup_time).slice(0, 5);
+  const dateStr = booking.pickup_date
+    ? new Date(booking.pickup_date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    : '—';
 
   const text = [
     '🚖 НОВАЯ БРОНЬ!',
@@ -58,7 +61,7 @@ async function sendTelegramNotification(booking) {
     `📞 Телефон: ${booking.user_phone || '—'}`,
     `📧 Email: ${booking.user_email || '—'}`,
     `🗺 Маршрут: ${fromLoc?.name_ru || '?'} → ${toLoc?.name_ru || '?'}`,
-    `📅 Дата: ${booking.pickup_date} ⏰ ${time}`,
+    `📅 Дата: ${dateStr} ⏰ ${time}`,
     `👥 Туристов: ${booking.tourist_count}`,
     `🚗 Авто: ${vehicle?.name || '?'}${guide ? `\n🧭 Гид: ${guide.name}` : '\n🧭 Гид: без гида'}`,
     `💰 Сумма: ${booking.total_price} сом`,
