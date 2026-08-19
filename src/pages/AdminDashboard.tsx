@@ -27,7 +27,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
   const loadData = useCallback(async (s: string) => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin-data', { headers: { 'x-admin-secret': s } });
+      const res = await fetch('/api/admin?action=data', { headers: { 'x-admin-secret': s } });
       if (res.status === 401) {
         localStorage.removeItem('admin_secret');
         setSecret(null);
@@ -48,7 +48,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch('/api/admin-login', {
+    const res = await fetch('/api/admin?action=login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
@@ -71,7 +71,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
 
   const updateStatus = async (type: string, id: string, status: string) => {
     if (!secret) return;
-    const res = await fetch('/api/admin-update', {
+    const res = await fetch('/api/admin?action=update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
       body: JSON.stringify({ type, id, status }),
