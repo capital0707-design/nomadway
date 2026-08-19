@@ -11,6 +11,7 @@ import GuideRegistration from './pages/GuideRegistration';
 import DriverDashboard from './pages/DriverDashboard';
 import HeroSection from './components/HeroSection';
 import GuideDashboard from './pages/GuideDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import { useTranslation } from './lib/i18n';
 
 const FlagRU = ({ className = '' }: { className?: string }) => (
@@ -42,7 +43,8 @@ type AppStep =
   | 'driver-dashboard'
   | 'guide-dashboard'
   | 'user-agreement'
-  | 'privacy-policy';
+  | 'privacy-policy'
+  | 'admin';
 
 interface BookingData {
   bookingId: string;
@@ -164,6 +166,9 @@ function App() {
         {step === 'privacy-policy' && (
           <PrivacyPolicy onBack={() => setStep('search')} />
         )}
+        {step === 'admin' && (
+          <AdminDashboard onBack={() => setStep('search')} />
+        )}
       </main>
 
       <footer className="bg-gray-900 text-gray-400 py-12 mt-20">
@@ -248,6 +253,14 @@ function App() {
                     className="text-gray-400 hover:text-accent-400 transition-colors text-right"
                   >
                     Кабинет гида →
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setStep('admin')}
+                    className="text-gray-400 hover:text-white transition-colors text-left"
+                  >
+                    🔐 Админ-панель →
                   </button>
                 </li>
               </ul>
