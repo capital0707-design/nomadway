@@ -16,6 +16,53 @@ const APP_STATUS: Record<string, string> = {
   rejected: 'Отклонена',
 };
 
+
+import { setStaffPassword } from '../lib/backendApi';
+
+function PasswordSetter({ type, id, secret }: { type: 'driver' | 'guide'; id: string; secret: string | null }) {
+  const [pwd, setPwd] = useState('');
+  const [status, setStatus] = useState<'idle' | 'saving' | 'ok' | 'err'>('idle');
+
+  const save = async () => {
+    if (!secret || pwd.length < 4) {
+      alert('Пароль должен быть не менее 4 символов');
+      return;
+    }
+    setStatus('saving');
+    try {
+      await setStaffPassword(type, id, pwd, secret);
+      setStatus('ok');
+      setPwd('');
+      setTimeout(() => setStatus('idle'), 2000);
+    } catch {
+      setStatus('err');
+    }
+  };
+
+  return (
+    <div className="w-full mt-3 pt-3 border-t border-gray-100 flex flex-wrap items-center gap-2">
+      <span className="text-xs text-gray-500">🔑 Пароль для входа:</span>
+      <input
+        type="text"
+        value={pwd}
+        onChange={e => setPwd(e.target.value)}
+        placeholder="минимум 4 символа"
+        className="flex-1 min-w-[140px] px-3 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-primary-400"
+      />
+      <button
+        onClick={save}
+        disabled={status === 'saving' || pwd.length < 4}
+        className="px-3 py-1.5 text-sm font-medium bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white rounded-lg transition-colors"
+      >
+        {status === 'saving' ? '...' : status === 'ok' ? '✓ Сохранён' : 'Назначить'}
+      </button>
+    </div>
+  );
+}
+
+
+
+
 export default function AdminDashboard({ onBack }: { onBack: () => void }) {
   const [secret, setSecret] = useState<string | null>(() => localStorage.getItem('admin_secret'));
   const [password, setPassword] = useState('');
@@ -187,6 +234,11 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
                 <p className="text-sm text-gray-600">Стаж: {d.experience_years} лет{d.languages?.length ? ` · Языки: ${d.languages.join(', ')}` : ''}</p>
                 {d.about && <p className="text-sm text-gray-500 mt-1">{d.about}</p>}
               </div>
+
+                            {d.status === 'approved' && (
+                <PasswordSetter type="driver" id={d.id} secret={secret} />
+              )}
+
               <select
                 value={d.status}
                 onChange={e => updateStatus('driver', d.id, e.target.value)}
@@ -210,6 +262,11 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
                 <p className="text-sm text-gray-600">Стаж: {g.experience_years} лет</p>
                 {g.about && <p className="text-sm text-gray-500 mt-1">{g.about}</p>}
               </div>
+
+                           {g.status === 'approved' && (
+                <PasswordSetter type="guide" id={g.id} secret={secret} />
+              )}
+
               <select
                 value={g.status}
                 onChange={e => updateStatus('guide', g.id, e.target.value)}
