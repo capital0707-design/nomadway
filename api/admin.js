@@ -48,5 +48,21 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true });
   }
 
+  // Установка пароля
+  if (req.method === 'POST' && action === 'set-password') {
+    const { type, id, password } = req.body;
+    if (!password || password.length < 4) {
+      return res.status(400).json({ error: 'Password too short' });
+    }
+    if (type === 'driver') {
+      await sql`UPDATE driver_applications SET password = ${password} WHERE id = ${id}`;
+    } else if (type === 'guide') {
+      await sql`UPDATE guide_applications SET password = ${password} WHERE id = ${id}`;
+    } else {
+      return res.status(400).json({ error: 'Invalid type' });
+    }
+    return res.status(200).json({ ok: true });
+  }
+
   res.status(400).json({ error: 'Invalid action' });
 }

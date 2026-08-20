@@ -2,20 +2,55 @@ import type { Booking } from './types';
 
 const API_BASE = '/api';
 
-export const CURRENT_DRIVER = { id: 'test-driver-123', name: 'Азамат К.' };
-export const CURRENT_GUIDE = { id: 'test-guide-456', name: 'Айгерим Т.' };
+// Получить текущего пользователя из localStorage
+function getCurrentUser(): { id: string; name: string; phone: string } | null {
+  try {
+    const raw = localStorage.getItem('driver_user');
+    if (raw) return JSON.parse(raw);
+    const rawG = localStorage.getItem('guide_user');
+    if (rawG) return JSON.parse(rawG);
+  } catch {}
+  return null;
+}
 
+export function getCurrentRole(): 'driver' | 'guide' | null {
+  if (localStorage.getItem('driver_user')) return 'driver';
+  if (localStorage.getItem('guide_user')) return 'guide';
+  return null;
+}
+
+export async function login(role: 'driver' | 'guide', phone: string, password: string): Promise<{ id: string; name: string; phone: string }> {
+  const res = await fetch(`${API_BASE}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ role, phone, password }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Ошибка входа');
+  localStorage.setItem(`${role}_user`, JSON.stringify(data));
+  return data;
+}
+
+export function logout(role: 'driver' | 'guide') {
+  localStorage.removeItem(`${role}_user`);
+}
+
+// ===== Кабинет водителя =====
 export async function fetchDriverBookings(): Promise<Booking[]> {
-  const res = await fetch(`${API_BASE}/driver?action=bookings&driverId=${CURRENT_DRIVER.id}`);
+  const user = getCurrentUser();
+  if (!user) throw new Error('Not logged in');
+  const res = await fetch(`${API_BASE}/driver?action=bookings&driverId=${user.id}`);
   if (!res.ok) throw new Error('Ошибка загрузки заказов');
   return res.json();
 }
 
 export async function acceptBooking(bookingId: string): Promise<void> {
+  const user = getCurrentUser();
+  if (!user) throw new Error('Not logged in');
   const res = await fetch(`${API_BASE}/driver?action=accept`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bookingId, driverId: CURRENT_DRIVER.id, driverName: CURRENT_DRIVER.name }),
+    body: JSON.stringify({ bookingId, driverId: user.id, driverName: user.name }),
   });
   if (!res.ok) throw new Error('Ошибка принятия заказа');
 }
@@ -29,8 +64,11 @@ export async function completeBooking(bookingId: string): Promise<void> {
   if (!res.ok) throw new Error('Ошибка завершения заказа');
 }
 
+// ===== Кабинет гида =====
 export async function fetchGuideBookings(): Promise<Booking[]> {
-  const res = await fetch(`${API_BASE}/guide?action=bookings&guideId=${CURRENT_GUIDE.id}`);
+  const user = getCurrentUser();
+  if (!user) throw new Error('Not logged in');
+  const res = await fetch(`${API_BASE}/guide?action=bookings&guideId=${user.id}`);
   if (!res.ok) throw new Error('Ошибка загрузки заказов');
   return res.json();
 }
@@ -39,7 +77,7 @@ export async function acceptGuideBooking(bookingId: string): Promise<void> {
   const res = await fetch(`${API_BASE}/guide?action=accept`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bookingId, guideId: CURRENT_GUIDE.id, guideName: CURRENT_GUIDE.name }),
+    body: JSON.stringify({ bookingId }),
   });
   if (!res.ok) throw new Error('Ошибка принятия заказа');
 }
@@ -51,4 +89,13 @@ export async function completeGuideBooking(bookingId: string): Promise<void> {
     body: JSON.stringify({ bookingId }),
   });
   if (!res.ok) throw new Error('Ошибка завершения заказа');
+}
+
+export async function setStaffPassword(type: 'driver' | 'guide', id: string, password: string, secret: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/admin?action=set-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
+    body: JSON.stringify({ type, id, password }),
+  });
+  if (!res.ok) throw new Error('Ошибка установки пароля');
 }
