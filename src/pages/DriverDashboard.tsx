@@ -221,8 +221,8 @@ export default function DriverDashboard({ onBack }: Props) {
                       <div className="w-2 h-2 rounded-full bg-accent-500" />
                     </div>
                     <div className="space-y-2">
-                      <p className="text-sm font-medium text-gray-900">Откуда: <span className="font-normal text-gray-600">{booking.from_location_id}</span></p>
-                      <p className="text-sm font-medium text-gray-900">Куда: <span className="font-normal text-gray-600">{booking.to_location_id}</span></p>
+                      <p className="text-sm font-medium text-gray-900">Откуда: <span className="font-normal text-gray-600">{(booking as any).from_name || booking.from_location_id}</span></p>
+                      <p className="text-sm font-medium text-gray-900">Куда: <span className="font-normal text-gray-600">{(booking as any).to_name || booking.to_location_id}</span></p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-4 text-sm text-gray-600 pt-2">

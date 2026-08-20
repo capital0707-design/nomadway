@@ -5,7 +5,16 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET' && action === 'bookings') {
     const { guideId } = req.query;
-    const rows = await sql`SELECT * FROM bookings WHERE guide_id::text = ${guideId} OR (guide_id IS NOT NULL AND status = 'confirmed') ORDER BY created_at DESC`;
+    const rows = await sql`
+      SELECT b.*, 
+        f.name_ru AS from_name, t.name_ru AS to_name,
+        v.name AS vehicle_name
+      FROM bookings b
+      JOIN locations f ON f.id = b.from_location_id
+      JOIN locations t ON t.id = b.to_location_id
+      JOIN vehicles v ON v.id = b.vehicle_id
+      WHERE b.guide_id::text = ${guideId} OR (b.guide_id IS NOT NULL AND b.status = 'confirmed')
+      ORDER BY b.created_at DESC`;
     return res.status(200).json(rows);
   }
 
