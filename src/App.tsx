@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { MapPin, Car, Users, Globe, Mountain } from 'lucide-react';
 import UserAgreement from './pages/UserAgreement';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -64,6 +64,15 @@ function App() {
   const [searchParams, setSearchParams] = useState<SearchParams | null>(null);
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const { t, lang, setLang } = useTranslation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
+
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
 
   const handleSearch = useCallback((params: SearchParams) => {
     setSearchParams(params);
